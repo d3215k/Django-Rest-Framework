@@ -40,6 +40,8 @@ from snippets import views
 #     path('users/<int:pk>/', user_detail, name='user-detail'),
 # ])
 
+app_name = 'snippets'
+
 # Create a router and register our ViewSets with it.
 router = DefaultRouter()
 router.register(r'snippets', views.SnippetViewSet, basename='snippet')
