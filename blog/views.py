@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer
+from blog.models import Post, Comment
+from blog.serializers import PostSerializer, CommentSerializer
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -27,5 +27,5 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         post_id = self.request.data.get('post')
-        post = post.objects.get(pk=post_id)
+        post = Post.objects.get(pk=post_id)
         serializer.save(author=self.request.user, post=post)
