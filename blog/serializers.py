@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from .models import Blog, Comment
+from .models import Post, Comment
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
     
-class BlogSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Blog
+        model = Post
         fields = '__all__'

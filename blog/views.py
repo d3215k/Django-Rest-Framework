@@ -2,12 +2,12 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Blog, Comment
-from .serializers import BlogSerializer, CommentSerializer
+from .models import Post, Comment
+from .serializers import PostSerializer, CommentSerializer
 
-class BlogViewSet(viewsets.ModelViewSet):
-    queryset = Blog.objects.all()
-    serializer_class = BlogSerializer
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
@@ -15,17 +15,17 @@ class BlogViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def clap(self, request, pk=None):
-        blog = self.get_object()
-        blog.claps += 1
-        blog.save()
-        return Response({'claps': blog.claps})
+        post = self.get_object()
+        post.claps += 1
+        post.save()
+        return Response({'claps': post.claps})
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
-        blog_id = self.request.data.get('blog')
-        blog = Blog.objects.get(pk=blog_id)
-        serializer.save(author=self.request.user, blog=blog)
+        post_id = self.request.data.get('post')
+        post = post.objects.get(pk=post_id)
+        serializer.save(author=self.request.user, post=post)
